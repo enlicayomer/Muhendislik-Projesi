@@ -1,25 +1,32 @@
 package com.ceng.ws;
 
-import javax.ws.rs.FormParam;
+import javax.annotation.PostConstruct;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/user")
+import com.ceng.controller.ContextController;
+
+@Path("/context")
 public class ContextService {
 	
+	private ContextController contextController;
+	
+	@PostConstruct
+	public void init() {
+		contextController = ContextController.getInstance();
+	}
 	
 	
 	@GET
-	@Path("/context")
+	@Path("/all")
 	@Produces(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response getFile(@FormParam("type") String type)  {
+	public Response getFile()  {
 		
-			System.out.println(mail+" "+sifre);
-			String resp=userController.loginDelegate(mail,sifre);
+		String resp=contextController.getAllContext();
 			
 			return Response.ok(new String(resp)).build();
 		

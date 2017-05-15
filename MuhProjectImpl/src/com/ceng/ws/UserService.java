@@ -10,7 +10,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-
+import org.apache.commons.codec.binary.Base64;
 
 import com.ceng.controller.UserController;
 import com.google.gson.JsonObject;
@@ -35,7 +35,7 @@ public class UserService {
 			System.out.println(mail+" "+sifre);
 			String resp=userController.loginDelegate(mail,sifre);
 			
-			return Response.ok(new String(resp)).build();
+			return Response.ok(resp).build();
 		
 	}
 	
@@ -45,12 +45,14 @@ public class UserService {
 	@Produces(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response getFile(@FormParam("registerdata") String data)  {
 		
-			System.out.println(data);
+			
 			JsonParser jsonParser = new JsonParser();
-			JsonObject object = jsonParser.parse(data).getAsJsonObject();
+			byte[] byteData = Base64.decodeBase64(data.getBytes());
+			System.out.println(new String(byteData));
+			JsonObject object = jsonParser.parse(new String(byteData)).getAsJsonObject();
 			String resp=userController.register(object);
 			
-			return Response.ok(new String(resp)).build();
+			return Response.ok(resp).build();
 		
 	}
 	
