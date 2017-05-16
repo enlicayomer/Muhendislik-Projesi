@@ -26,7 +26,6 @@ public class ContextController {
 	public String getAllContext() {
 
 		String context = "null";
-		JsonObject jsonObject = new JsonObject();
 		JsonObject returnData = new JsonObject();
 		JsonArray jsonArray=new JsonArray();
 		UserModel userModel = new UserModel();
@@ -35,6 +34,7 @@ public class ContextController {
 			statement = connection.prepareStatement(ALL_CONTEXT);
 			try (ResultSet resultSet = statement.executeQuery()) {
 				while (resultSet.next()) {
+					JsonObject jsonObject = new JsonObject();
 					jsonObject.addProperty("contex_id", resultSet.getInt("cntx_id"));
 					jsonObject.addProperty("contex_header", resultSet.getString("cntx_header"));
 					jsonObject.addProperty("contex_body", resultSet.getString("cntx_body"));
